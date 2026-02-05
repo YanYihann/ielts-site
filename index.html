@@ -78,6 +78,17 @@
   resize: vertical;
 }
 .viewActions{ margin-top:10px; display:flex; gap:10px; flex-wrap:wrap; }
+    
+/* === 已编辑模式展示 === */
+.editedBanner{ margin:12px 0 0; padding:10px 12px; border:1px solid var(--line); border-radius:14px; background:rgba(78,161,255,.08); color:var(--text); font-size:13px;}
+.viewDisplay{ border:1px solid var(--line); border-radius:14px; padding:12px; background:rgba(255,255,255,.02); margin-top:10px;}
+.viewDisplayHead{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:8px;}
+.viewBlock{ display:flex; flex-direction:column; gap:8px;}
+.viewRow{ padding:10px; border:1px dashed rgba(123,134,152,.35); border-radius:12px; background:rgba(11,15,20,.35);}
+.viewRow .label{ color:var(--muted); font-size:12px; margin-bottom:6px;}
+.viewRow .content{ white-space:pre-wrap; line-height:1.55; font-size:14px;}
+.qActions{ margin-top:10px; display:flex; gap:10px; flex-wrap:wrap; }
+
     a{color:var(--accent)}
   </style>
 </head>
@@ -102,6 +113,7 @@
 
       
 <button id="saveToGithub" class="btn">保存到GitHub</button>
+<button id="showEdited" class="btn btn-ghost">只看已编辑</button>
 <select id="topicFilter">
         <option value="">全部话题</option>
       </select>
@@ -131,6 +143,19 @@
  * 你只需要更新 JSON 文件内容，重新选择加载即可展示最新数据。
  */
 let DATA = [];
+
+let SHOW_EDITED_ONLY = false;
+
+function hasAnyText(v) {
+  return ['claim_zh','claim_en','analysis_zh','analysis_en']
+    .some(k => (v && typeof v[k] === 'string' && v[k].trim().length));
+}
+
+function itemHasEditedViews(it) {
+  const vs = Array.isArray(it.views) ? it.views : [];
+  return vs.some(hasAnyText);
+}
+
 
 // Vercel 保存接口（会自动提交 commit 更新 GitHub 仓库 data.json）
 const SAVE_API = "https://ielts-site-indol.vercel.app/api/save";
@@ -196,6 +221,7 @@ const els = {
   jsonFile: document.getElementById('jsonFile'),
   jsonName: document.getElementById('jsonName'),  exportJson: document.getElementById('exportJson'),
   exportJsonAll: document.getElementById('exportJsonAll'),
+  showEdited: document.getElementById('showEdited'),
 };
 
 function unique(arr) {
@@ -264,8 +290,10 @@ function render() {
   const showZh = els.showZh.checked;
   const showEn = els.showEn.checked;
 
-  const filtered = DATA.filter(it => matches(it, q, topic, year));
-  els.stats.textContent = `当前匹配：${filtered.length} / ${DATA.length} 题`;
+  const base = SHOW_EDITED_ONLY ? DATA.filter(itemHasEditedViews) : DATA;
+  const filtered = base.filter(it => matches(it, q, topic, year));
+  const modeText = SHOW_EDITED_ONLY ? '（只看已编辑）' : '';
+  els.stats.textContent = `当前匹配：${filtered.length} / ${base.length} 题${modeText}`;
 
   els.container.innerHTML = '';
   els.empty.style.display = filtered.length ? 'none' : 'block';
@@ -315,81 +343,152 @@ function render() {
       if (!showEn) pEn.style.display = 'none';
       if (!showZh) pZh.style.display = 'none';
 
+      // 题干展示
       d.appendChild(meta);
-      d.appendChild(pEn);
       d.appendChild(pZh);
+      d.appendChild(pEn);
 
-// ===== Views 编辑区（可选） =====
+      // ===== Views（编辑/展示） =====
+const qActions = document.createElement('div');
+qActions.className = 'qActions';
+
 const viewsWrap = document.createElement('div');
 viewsWrap.className = 'viewsWrap';
 
 const views = Array.isArray(it.views) ? it.views : [];
-if (!views.length) {
-  // 如果没有 views，默认给 A/B 两个立场（可按需增减）
+if (!views.length && !SHOW_EDITED_ONLY) {
+  // 正常模式：如果没有 views，默认给 A/B 两个立场（可按需增减）
   it.views = [
     { side: "A", claim_zh: "", claim_en: "", analysis_zh: "", analysis_en: "" },
     { side: "B", claim_zh: "", claim_en: "", analysis_zh: "", analysis_en: "" },
   ];
 }
 
-for (let i = 0; i < it.views.length; i++) {
-  const vItem = it.views[i];
+// === 只看已编辑：纯展示（无编辑框） ===
+if (SHOW_EDITED_ONLY) {
+  const editedViews = (Array.isArray(it.views) ? it.views : []).filter(hasAnyText);
+  if (editedViews.length) {
+    const banner = document.createElement('div');
+    banner.className = 'editedBanner';
+    banner.textContent = `本题已编辑观点：${editedViews.length} 条（只要 view 中任一字段有内容即计入）`;
+    d.appendChild(banner);
 
-  const card = document.createElement('div');
-  card.className = 'viewCard';
+    for (let i = 0; i < editedViews.length; i++) {
+      const vItem = editedViews[i];
+      const box = document.createElement('div');
+      box.className = 'viewDisplay';
 
-  card.innerHTML = `
-    <div class="viewHead">
-      <strong>观点 ${vItem.side || (i+1)}</strong>
-      <span class="muted">编辑后点“保存到内存”，最后用顶部“导出JSON”下载</span>
-    </div>
+      const head = document.createElement('div');
+      head.className = 'viewDisplayHead';
+      head.innerHTML = `<strong>观点 ${vItem.side || (i+1)}</strong><span class="muted">展示模式</span>`;
+      box.appendChild(head);
 
-    <div class="grid2">
-      <label class="field">
-        <div class="muted">主张(中文)</div>
-        <textarea data-k="claim_zh" rows="2" placeholder="写观点的中文主张..."></textarea>
-      </label>
-      <label class="field">
-        <div class="muted">主张(英文)</div>
-        <textarea data-k="claim_en" rows="2" placeholder="Claim in English..."></textarea>
-      </label>
-    </div>
+      const block = document.createElement('div');
+      block.className = 'viewBlock';
 
-    <div class="grid2" style="margin-top:10px">
-      <label class="field">
-        <div class="muted">分析(中文)</div>
-        <textarea data-k="analysis_zh" rows="3" placeholder="中文分析/理由/例子..."></textarea>
-      </label>
-      <label class="field">
-        <div class="muted">分析(英文)</div>
-        <textarea data-k="analysis_en" rows="3" placeholder="Analysis / reasons / examples in English..."></textarea>
-      </label>
-    </div>
+      // 中文：主张 + 分析（整行展示）
+      if (showZh) {
+        const zhText = [vItem.claim_zh, vItem.analysis_zh].filter(x => (x||'').trim().length).join('\n');
+        if (zhText.trim().length) {
+          const row = document.createElement('div');
+          row.className = 'viewRow';
+          row.innerHTML = `<div class="label">中文</div><div class="content"></div>`;
+          row.querySelector('.content').textContent = zhText;
+          block.appendChild(row);
+        }
+      }
 
-    <div class="viewActions">
-      <button class="btn btn-ghost" data-action="saveView">保存到内存</button>
-    </div>
-  `;
+      // 英文：Claim + Analysis（整行展示）
+      if (showEn) {
+        const enText = [vItem.claim_en, vItem.analysis_en].filter(x => (x||'').trim().length).join('\n');
+        if (enText.trim().length) {
+          const row = document.createElement('div');
+          row.className = 'viewRow';
+          row.innerHTML = `<div class="label">English</div><div class="content"></div>`;
+          row.querySelector('.content').textContent = enText;
+          block.appendChild(row);
+        }
+      }
 
-  // 回填初始值
-  for (const ta of card.querySelectorAll('textarea')) {
-    const k = ta.getAttribute('data-k');
-    ta.value = vItem[k] || "";
-  }
-
-  // 保存：写回 it.views[i]
-  card.querySelector('[data-action="saveView"]').addEventListener('click', () => {
-    for (const ta of card.querySelectorAll('textarea')) {
-      const k = ta.getAttribute('data-k');
-      vItem[k] = ta.value;
+      box.appendChild(block);
+      d.appendChild(box);
     }
-    alert(`已保存：${it.date || ""} / ${topicLabel(it.topic) || it.topic || ""} / 观点${vItem.side || (i+1)}`);
+  }
+} else {
+  // === 正常模式：默认折叠，点“编辑观点”展开 ===
+  const editBtn = document.createElement('button');
+  editBtn.className = 'btn btn-ghost';
+  editBtn.textContent = '编辑观点';
+  qActions.appendChild(editBtn);
+
+  viewsWrap.style.display = 'none'; // 默认折叠
+
+  editBtn.addEventListener('click', () => {
+    const isOpen = viewsWrap.style.display !== 'none';
+    viewsWrap.style.display = isOpen ? 'none' : 'block';
+    editBtn.textContent = isOpen ? '编辑观点' : '收起观点';
   });
 
-  viewsWrap.appendChild(card);
-}
+  for (let i = 0; i < it.views.length; i++) {
+    const vItem = it.views[i];
 
-d.appendChild(viewsWrap);
+    const card = document.createElement('div');
+    card.className = 'viewCard';
+
+    card.innerHTML = `
+      <div class="viewHead">
+        <strong>观点 ${vItem.side || (i+1)}</strong>
+        <span class="muted">编辑后点“保存到内存”，最后用顶部“导出JSON”下载</span>
+      </div>
+
+      <div class="grid2">
+        <label class="field">
+          <div class="muted">主张(中文)</div>
+          <textarea data-k="claim_zh" rows="2" placeholder="写观点的中文主张..."></textarea>
+        </label>
+        <label class="field">
+          <div class="muted">主张(英文)</div>
+          <textarea data-k="claim_en" rows="2" placeholder="Claim in English..."></textarea>
+        </label>
+      </div>
+
+      <div class="grid2" style="margin-top:10px">
+        <label class="field">
+          <div class="muted">分析(中文)</div>
+          <textarea data-k="analysis_zh" rows="3" placeholder="中文分析/理由/例子..."></textarea>
+        </label>
+        <label class="field">
+          <div class="muted">分析(英文)</div>
+          <textarea data-k="analysis_en" rows="3" placeholder="Analysis / reasons / examples in English..."></textarea>
+        </label>
+      </div>
+
+      <div class="viewActions">
+        <button class="btn btn-ghost" data-action="saveView">保存到内存</button>
+      </div>
+    `;
+
+    // 回填初始值
+    for (const ta of card.querySelectorAll('textarea')) {
+      const k = ta.getAttribute('data-k');
+      ta.value = vItem[k] || "";
+    }
+
+    // 保存：写回 it.views[i]
+    card.querySelector('[data-action="saveView"]').addEventListener('click', () => {
+      for (const ta of card.querySelectorAll('textarea')) {
+        const k = ta.getAttribute('data-k');
+        vItem[k] = ta.value;
+      }
+      alert(`已保存：${it.date || ""} / ${topicLabel(it.topic) || it.topic || ""} / 观点${vItem.side || (i+1)}`);
+    });
+
+    viewsWrap.appendChild(card);
+  }
+
+  d.appendChild(qActions);
+  d.appendChild(viewsWrap);
+}
 
       list.appendChild(d);
     }
@@ -521,6 +620,15 @@ async function handleFile(file) {
 
 (function init() {
   bind();
+
+  // 只看已编辑（切换）
+  if (els.showEdited) {
+    els.showEdited.addEventListener('click', () => {
+      SHOW_EDITED_ONLY = !SHOW_EDITED_ONLY;
+      els.showEdited.textContent = SHOW_EDITED_ONLY ? '返回全部' : '只看已编辑';
+      render();
+    });
+  }
 
 // 导出按钮（只会导出当前内存里的 DATA；浏览器不能直接覆盖本地文件，只能下载）
 if (els.exportJson) {
