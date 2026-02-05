@@ -9969,10 +9969,10 @@
     "views": [
       {
         "side": "A",
-        "claim_zh": "",
-        "claim_en": "",
-        "analysis_zh": "",
-        "analysis_en": ""
+        "claim_zh": "使用社交媒体可能会增加隐私泄露风险",
+        "claim_en": "The use of social media may increase the risk of privacy invasion.",
+        "analysis_zh": "使用社交网站\n→ 必须先注册（required/forced to register）\n→ 不得不填写个人信息（real name / ID number / phone number…）\n→ 平台公司收集并保存这些数据\n→ 风险 1：公司或员工可能为获利泄露信息\n→ 风险 2：即使公司不泄露，黑客也可能窃取并外泄\n→ 结论：社交媒体增加隐私泄露风险\n\n\n使用社交媒体可能会增加隐私被侵犯的风险。首先，用户在使用大多数社交网站前通常必须注册，这意味着他们不得不提供个人信息。因此，真实姓名、身份证号、电话号码等敏感信息会被平台公司收集并保存。这样一来就产生风险：公司或员工可能为了获利而泄露用户数据。除此之外，即使公司本身不泄露，这些信息也仍可能被黑客窃取并公开传播。因此，我认为社交媒体的普及会导致隐私泄露问题。",
+        "analysis_en": "Explain（解释+具象化）\nTo begin with, users are typically required to register before using most social networking sites, meaning that they have to provide personal details. As a result, sensitive information such as their real name, ID number and phone number may be collected and stored by the companies running these platforms.\n\nDevelop（展开两条风险路径）\nThis creates a potential threat because the companies or their staff may leak users’ data for profit. Additionally, even if the companies themselves do not disclose such information, it can still be stolen and leaked by hackers.\n\nLink（回扣观点）\nTherefore, I believe that the growing use of social media can lead to privacy breaches."
       },
       {
         "side": "B",
@@ -12345,9 +12345,9 @@
     "views": [
       {
         "side": "A",
-        "claim_zh": "",
-        "claim_en": "",
-        "analysis_zh": "",
+        "claim_zh": "使用私家车可能会破坏环境",
+        "claim_en": "The use of private cars may damage the environment",
+        "analysis_zh": "私家车使用 ↑ → 尾气排放 ↑（锚点）→ 空气污染/温室气体 ↑ → 环境受损（回扣观点）",
         "analysis_en": ""
       },
       {
