@@ -135,6 +135,34 @@ let DATA = [];
 // Vercel 保存接口（会自动提交 commit 更新 GitHub 仓库 data.json）
 const SAVE_API = "https://ielts-site-pbjaib2a3-yanyihans-projects.vercel.app/api/save";
 
+
+const DATA_URL = "./data.json";
+
+async function loadDataFromGithub() {
+  // 仅在 http(s) 环境自动加载（GitHub Pages / Vercel 等）
+  if (!location.protocol.startsWith("http")) return;
+
+  try {
+    showLoadTip(`正在自动加载：<code>${DATA_URL}</code> ...`);
+    const resp = await fetch(`${DATA_URL}?ts=${Date.now()}`); // 破缓存
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const obj = await resp.json();
+    if (!Array.isArray(obj)) throw new Error("data.json 顶层必须是数组（每题一条对象）。");
+
+    DATA = obj;
+    if (els.jsonName) els.jsonName.textContent = "已自动加载：./data.json（GitHub Pages）";
+    hideLoadTip();
+    initFilters();
+    render();
+  } catch (e) {
+    console.error(e);
+    showLoadTip(
+      `自动加载 <code>${DATA_URL}</code> 失败：${e.message}<br/>` +
+      `你仍然可以用“选择JSON文件”导入本地 JSON。`
+    );
+  }
+}
+
 const TOPIC_ORDER = ["Animals", "Crime & Law", "Culture & Arts", "Education & Learning", "Environment & Energy", "Health & Lifestyle", "Other", "Society & Family", "Technology & Media", "Transport & Cities", "Travel & Tourism", "Work & Career"];
 
 const topicLabel = (t) => {
@@ -513,12 +541,63 @@ if (els.exportJsonAll) {
     // 这里用更“覆盖友好”的文件名：data.json（浏览器仍然是下载，覆盖需要你手动替换）
     downloadJson("data.json", DATA);
   });
+
+// 保存到 GitHub（调用 Vercel Serverless 接口，更新仓库 data.json 并自动 commit）
+const saveBtn = document.getElementById("saveToGithub");
+if (saveBtn) {
+  saveBtn.addEventListener("click", async () => {
+    if (!DATA || !DATA.length) {
+      alert("当前还没有加载题库 JSON。请先等待自动加载完成或先选择 JSON 文件。");
+      return;
+    }
+
+    const adminKey = prompt("输入保存密钥（Vercel 环境变量 ADMIN_KEY）");
+    if (!adminKey) return;
+
+    saveBtn.disabled = true;
+    const oldText = saveBtn.textContent;
+    saveBtn.textContent = "保存中...";
+
+    try {
+      const resp = await fetch(SAVE_API, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Admin-Key": adminKey,
+        },
+        body: JSON.stringify({ content: DATA }),
+      });
+
+      const out = await resp.json().catch(() => ({}));
+      if (!resp.ok) {
+        console.error(out);
+        alert("保存失败：" + (out.error || resp.status) + (out.detail ? "\n" + out.detail : ""));
+        return;
+      }
+
+      alert("保存成功：已提交到 GitHub（生成一次 commit）。\nGitHub Pages 可能需要几十秒刷新缓存，建议稍等后刷新。");
+
+      // 保存成功后自动重新拉取最新 data.json（破缓存）
+      await loadDataFromGithub();
+    } catch (e) {
+      console.error(e);
+      alert("保存失败：" + (e && e.message ? e.message : String(e)));
+    } finally {
+      saveBtn.disabled = false;
+      saveBtn.textContent = oldText;
+    }
+  });
 }
 
 
-  showLoadTip(`请在顶部点击“选择JSON文件”，选择你的题库 <code>.json</code> 后开始使用（支持双击打开本页）。保存到 GitHub 后，GitHub Pages 可能有缓存延迟，稍等或强制刷新。`);
+}
 
-  if (!els.jsonFile) {
+
+  showLoadTip(`提示：在 GitHub Pages 上会自动加载同目录 <code>data.json</code>；本地双击打开（file://）时需要手动“选择JSON文件”。保存到 GitHub 后可能有缓存延迟，稍等或强制刷新。`);
+
+  // GitHub Pages 自动加载同目录 data.json
+  loadDataFromGithub();
+if (!els.jsonFile) {
     showLoadTip("未找到 JSON 文件选择器（#jsonFile）。请检查 HTML 是否包含该控件。");
     return;
   }
