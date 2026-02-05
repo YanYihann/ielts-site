@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>雅思写作真题题库（2013-2026）按话题分类</title>
+  <style>
+    :root {
+      --bg:#0b0f14; --card:#121826; --muted:#7b8698; --text:#e6edf3; --line:#223044;
+      --chip:#1b263a; --accent:#4ea1ff;
+    }
+    *{box-sizing:border-box}
+    body{margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"PingFang SC","Noto Sans CJK SC","Microsoft YaHei",sans-serif;
+         background:var(--bg); color:var(--text);}
+    header{position:sticky; top:0; z-index:10; background:rgba(11,15,20,.92); backdrop-filter: blur(10px); border-bottom:1px solid var(--line);}
+    .wrap{max-width:1100px; margin:0 auto; padding:16px;}
+    h1{margin:0 0 8px; font-size:20px;}
+    .sub{color:var(--muted); font-size:13px; line-height:1.4}
+    .controls{display:flex; flex-wrap:wrap; gap:10px; margin-top:12px; align-items:center}
+    input[type="search"], select{background:var(--card); border:1px solid var(--line); color:var(--text);
+        padding:10px 12px; border-radius:12px; outline:none; min-width:220px}
+    .pill{display:inline-flex; gap:8px; align-items:center; background:var(--chip); border:1px solid var(--line);
+          padding:10px 12px; border-radius:999px; color:var(--text); font-size:13px}
+    .pill input{accent-color:var(--accent)}
+    main{padding:16px 0 40px}
+    details{background:var(--card); border:1px solid var(--line); border-radius:16px; margin:12px 0; overflow:hidden}
+    summary{cursor:pointer; padding:14px 16px; list-style:none; display:flex; align-items:center; justify-content:space-between; gap:12px}
+    summary::-webkit-details-marker{display:none}
+    .topicTitle{display:flex; gap:10px; align-items:center; font-weight:700}
+    .count{color:var(--muted); font-weight:600; font-size:12px; background:rgba(123,134,152,.12); padding:3px 8px; border-radius:999px}
+    .list{padding:0 10px 10px}
+    .q{border-top:1px solid var(--line); padding:12px 10px}
+    .meta{display:flex; gap:10px; flex-wrap:wrap; align-items:center; color:var(--muted); font-size:12px; margin-bottom:8px}
+    .tag{background:rgba(78,161,255,.12); border:1px solid rgba(78,161,255,.25); color:var(--text);
+         padding:2px 8px; border-radius:999px}
+    .en{font-size:14px; line-height:1.5; margin:0 0 6px}
+    .zh{font-size:14px; line-height:1.5; margin:0}
+    .muted{color:var(--muted)}
+    .empty{padding:20px; color:var(--muted); border:1px dashed var(--line); border-radius:16px; text-align:center}
+    /* === 操作按钮 === */
+.btn{
+  background: var(--accent);
+  color: #06111f;
+  border: 1px solid rgba(78,161,255,.35);
+  padding: 10px 12px;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.btn:hover{ filter: brightness(1.05); }
+.btn-ghost{
+  background: var(--chip);
+  color: var(--text);
+  border: 1px solid var(--line);
+  font-weight: 600;
+}
+
+/* === Views 编辑区 === */
+.viewsWrap{ margin-top:12px; display:flex; flex-direction:column; gap:10px; }
+.viewCard{
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 12px;
+  background: rgba(255,255,255,.02);
+}
+.viewHead{ display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; margin-bottom:10px; }
+.grid2{ display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
+@media (max-width: 900px){ .grid2{ grid-template-columns: 1fr; } }
+.field textarea{
+  width:100%;
+  background: var(--bg);
+  color: var(--text);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:10px;
+  outline:none;
+  resize: vertical;
+}
+.viewActions{ margin-top:10px; display:flex; gap:10px; flex-wrap:wrap; }
+    a{color:var(--accent)}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>雅思写作真题题库（2013-2026）按话题分类</h1>
+    <div class="sub">
+      支持搜索、按话题/年份筛选、中英文双语展示（中文为自动翻译/模板化翻译，可按需人工润色）。<br/>
+      数据来源：你上传的题库文档。
+    </div>
+    <div class="controls">
+      <input id="qSearch" type="search" placeholder="搜索关键词（中/英都可）…" />
+
+      <label class="pill" style="gap:10px">
+        <input id="jsonFile" type="file" accept=".json,application/json" />
+        <span id="jsonName" class="muted">选择JSON文件</span>
+      </label>
+
+<button id="exportJson" class="btn btn-ghost">导出JSON</button>
+<button id="exportJsonAll" class="btn">导出并下载（建议覆盖）</button>
+
+      
+<button id="saveToGithub" class="btn">保存到GitHub</button>
+<select id="topicFilter">
+        <option value="">全部话题</option>
+      </select>
+      <select id="yearFilter">
+        <option value="">全部年份</option>
+      </select>
+      <label class="pill"><input id="showZh" type="checkbox" checked /> 显示中文</label>
+      <label class="pill"><input id="showEn" type="checkbox" checked /> 显示英文</label>
+      <label class="pill"><input id="expandAll" type="checkbox" /> 展开全部话题</label>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div id="stats" class="sub"></div>
+  <div id="container"></div>
+  <div id="empty" class="empty" style="display:none">没有匹配的题目。请调整搜索或筛选条件。</div>
+  <p class="sub" style="margin-top:18px">
+    小提示：如果你希望中文是高质量人工译文，可以把本页的 JSON 数据导出到后台，用翻译服务批量生成后再替换 <code>zh</code> 字段。
+  </p>
+</main>
+
+<script>
+/**
+ * 本页支持【直接双击打开】（file://）：
+ * 由于浏览器会拦截 fetch 读取本地 JSON，所以改为“打开后选择 JSON 文件加载”。
+ * 你只需要更新 JSON 文件内容，重新选择加载即可展示最新数据。
+ */
+let DATA = [];
+
+// Vercel 保存接口（会自动提交 commit 更新 GitHub 仓库 data.json）
+const SAVE_API = "https://ielts-site-pbjaib2a3-yanyihans-projects.vercel.app/api/save";
+
+const TOPIC_ORDER = ["Animals", "Crime & Law", "Culture & Arts", "Education & Learning", "Environment & Energy", "Health & Lifestyle", "Other", "Society & Family", "Technology & Media", "Transport & Cities", "Travel & Tourism", "Work & Career"];
+
+const topicLabel = (t) => {
+  const map = {
+    "Education & Learning":"教育与学习",
+    "Work & Career":"工作与职业",
+    "Technology & Media":"科技与媒体",
+    "Environment & Energy":"环境与能源",
+    "Health & Lifestyle":"健康与生活方式",
+    "Crime & Law":"犯罪与法律",
+    "Society & Family":"社会与家庭",
+    "Culture & Arts":"文化与艺术",
+    "Travel & Tourism":"旅行与旅游",
+    "Transport & Cities":"交通与城市",
+    "Animals":"动物与动物权益",
+    "Other":"其他"
+  };
+  return map[t] || t;
+};
+
+const els = {
+  search: document.getElementById('qSearch'),
+  topic: document.getElementById('topicFilter'),
+  year: document.getElementById('yearFilter'),
+  showZh: document.getElementById('showZh'),
+  showEn: document.getElementById('showEn'),
+  expandAll: document.getElementById('expandAll'),
+  container: document.getElementById('container'),
+  empty: document.getElementById('empty'),
+  stats: document.getElementById('stats'),
+  jsonFile: document.getElementById('jsonFile'),
+  jsonName: document.getElementById('jsonName'),  exportJson: document.getElementById('exportJson'),
+  exportJsonAll: document.getElementById('exportJsonAll'),
+};
+
+function unique(arr) {
+  return [...new Set(arr)].sort((a,b)=>a-b);
+}
+
+function resetFiltersUI() {
+  els.topic.innerHTML = '<option value="">全部话题</option>';
+  els.year.innerHTML  = '<option value="">全部年份</option>';
+}
+
+function initFilters() {
+  resetFiltersUI();
+  for (const t of TOPIC_ORDER) {
+    const opt = document.createElement('option');
+    opt.value = t;
+    opt.textContent = `${topicLabel(t)}`;
+    els.topic.appendChild(opt);
+  }
+  const years = unique(DATA.map(x=>x.year).filter(Boolean));
+  for (const y of years) {
+    const opt = document.createElement('option');
+    opt.value = y;
+    opt.textContent = y;
+    els.year.appendChild(opt);
+  }
+}
+
+function norm(s) {
+  return (s||'').toLowerCase().replace(/\s+/g,' ').trim();
+}
+
+function matches(item, q, topic, year) {
+  if (topic && item.topic !== topic) return false;
+  if (year && String(item.year) !== String(year)) return false;
+  if (!q) return true;
+  const hay = norm((item.en||"") + " " + (item.zh||"") + " " + (item.date||"") + " " + (item.variant||""));
+  return hay.includes(q);
+}
+
+function groupByTopic(items) {
+  const m = new Map();
+  for (const t of TOPIC_ORDER) m.set(t, []);
+  for (const it of items) {
+    if (!m.has(it.topic)) m.set(it.topic, []);
+    m.get(it.topic).push(it);
+  }
+  for (const [t, arr] of m.entries()) {
+    arr.sort((a,b)=> (a.date||"").localeCompare(b.date||""));
+  }
+  return m;
+}
+
+function render() {
+  if (!Array.isArray(DATA) || DATA.length === 0) {
+    els.stats.textContent = '';
+    els.container.innerHTML = '';
+    els.empty.style.display = 'none';
+    return;
+  }
+
+  const q = norm(els.search.value);
+  const topic = els.topic.value;
+  const year = els.year.value;
+
+  const showZh = els.showZh.checked;
+  const showEn = els.showEn.checked;
+
+  const filtered = DATA.filter(it => matches(it, q, topic, year));
+  els.stats.textContent = `当前匹配：${filtered.length} / ${DATA.length} 题`;
+
+  els.container.innerHTML = '';
+  els.empty.style.display = filtered.length ? 'none' : 'block';
+  if (!filtered.length) return;
+
+  const grouped = groupByTopic(filtered);
+
+  for (const t of TOPIC_ORDER) {
+    const arr = grouped.get(t) || [];
+    if (!arr.length) continue;
+
+    const det = document.createElement('details');
+    det.open = els.expandAll.checked;
+
+    const sum = document.createElement('summary');
+    const left = document.createElement('div');
+    left.className = 'topicTitle';
+    left.innerHTML = `<span>${topicLabel(t)}</span><span class="count">${arr.length}</span>`;
+    const right = document.createElement('div');
+    right.className = 'muted';
+    right.textContent = '点击展开/收起';
+    sum.appendChild(left);
+    sum.appendChild(right);
+    det.appendChild(sum);
+
+    const list = document.createElement('div');
+    list.className = 'list';
+
+    for (const it of arr) {
+      const d = document.createElement('div');
+      d.className = 'q';
+      const meta = document.createElement('div');
+      meta.className = 'meta';
+      const v = it.variant ? `卷${it.variant}` : '';
+      meta.innerHTML = `
+        <span class="tag">${it.date || ''}</span>
+        <span>${it.year || ''}${v ? ' · ' + v : ''}</span>
+      `;
+      const pEn = document.createElement('p');
+      pEn.className = 'en';
+      pEn.textContent = it.en || '';
+
+      const pZh = document.createElement('p');
+      pZh.className = 'zh';
+      pZh.textContent = it.zh || '';
+
+      if (!showEn) pEn.style.display = 'none';
+      if (!showZh) pZh.style.display = 'none';
+
+      d.appendChild(meta);
+      d.appendChild(pEn);
+      d.appendChild(pZh);
+
+// ===== Views 编辑区（可选） =====
+const viewsWrap = document.createElement('div');
+viewsWrap.className = 'viewsWrap';
+
+const views = Array.isArray(it.views) ? it.views : [];
+if (!views.length) {
+  // 如果没有 views，默认给 A/B 两个立场（可按需增减）
+  it.views = [
+    { side: "A", claim_zh: "", claim_en: "", analysis_zh: "", analysis_en: "" },
+    { side: "B", claim_zh: "", claim_en: "", analysis_zh: "", analysis_en: "" },
+  ];
+}
+
+for (let i = 0; i < it.views.length; i++) {
+  const vItem = it.views[i];
+
+  const card = document.createElement('div');
+  card.className = 'viewCard';
+
+  card.innerHTML = `
+    <div class="viewHead">
+      <strong>观点 ${vItem.side || (i+1)}</strong>
+      <span class="muted">编辑后点“保存到内存”，最后用顶部“导出JSON”下载</span>
+    </div>
+
+    <div class="grid2">
+      <label class="field">
+        <div class="muted">主张(中文)</div>
+        <textarea data-k="claim_zh" rows="2" placeholder="写观点的中文主张..."></textarea>
+      </label>
+      <label class="field">
+        <div class="muted">主张(英文)</div>
+        <textarea data-k="claim_en" rows="2" placeholder="Claim in English..."></textarea>
+      </label>
+    </div>
+
+    <div class="grid2" style="margin-top:10px">
+      <label class="field">
+        <div class="muted">分析(中文)</div>
+        <textarea data-k="analysis_zh" rows="3" placeholder="中文分析/理由/例子..."></textarea>
+      </label>
+      <label class="field">
+        <div class="muted">分析(英文)</div>
+        <textarea data-k="analysis_en" rows="3" placeholder="Analysis / reasons / examples in English..."></textarea>
+      </label>
+    </div>
+
+    <div class="viewActions">
+      <button class="btn btn-ghost" data-action="saveView">保存到内存</button>
+    </div>
+  `;
+
+  // 回填初始值
+  for (const ta of card.querySelectorAll('textarea')) {
+    const k = ta.getAttribute('data-k');
+    ta.value = vItem[k] || "";
+  }
+
+  // 保存：写回 it.views[i]
+  card.querySelector('[data-action="saveView"]').addEventListener('click', () => {
+    for (const ta of card.querySelectorAll('textarea')) {
+      const k = ta.getAttribute('data-k');
+      vItem[k] = ta.value;
+    }
+    alert(`已保存：${it.date || ""} / ${topicLabel(it.topic) || it.topic || ""} / 观点${vItem.side || (i+1)}`);
+  });
+
+  viewsWrap.appendChild(card);
+}
+
+d.appendChild(viewsWrap);
+
+      list.appendChild(d);
+    }
+
+    det.appendChild(list);
+    els.container.appendChild(det);
+  }
+}
+
+function bind() {
+  for (const el of [els.search, els.topic, els.year, els.showZh, els.showEn, els.expandAll]) {
+    el.addEventListener('input', render);
+    el.addEventListener('change', render);
+  }
+}
+
+function showLoadTip(msg) {
+  let tip = document.getElementById("loadTip");
+  if (!tip) {
+    tip = document.createElement("div");
+    tip.id = "loadTip";
+    tip.className = "empty";
+    tip.style.display = "block";
+    tip.style.margin = "12px 0";
+    els.container.parentElement.insertBefore(tip, els.container);
+  }
+  tip.innerHTML = msg;
+}
+
+function hideLoadTip() {
+  const tip = document.getElementById("loadTip");
+  if (tip) tip.remove();
+}
+
+
+function downloadJson(filename, obj) {
+  const str = JSON.stringify(obj, null, 2);
+  const blob = new Blob([str], { type: "application/json;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+function repairJsonText(s) {
+  // 修复常见“控制字符未转义”导致的 JSON.parse 报错（尤其是从 Word/复制粘贴生成的 JSON）
+  // 规则：在字符串内部遇到 <0x20 的控制字符时，转成合法转义序列；字符串外则尽量保留 \n \r \t，其余丢弃
+  let out = "";
+  let inStr = false;
+  let esc = false;
+
+  for (let i = 0; i < s.length; i++) {
+    const ch = s[i];
+    const code = ch.charCodeAt(0);
+
+    if (inStr) {
+      if (esc) {
+        out += ch;
+        esc = false;
+        continue;
+      }
+      if (ch === "\\\\") {
+        out += ch;
+        esc = true;
+        continue;
+      }
+      if (ch === '"') {
+        out += ch;
+        inStr = false;
+        continue;
+      }
+      if (code < 0x20) {
+        // 控制字符：转义
+        switch (ch) {
+          case "\n": out += "\\\\n"; break;
+          case "\r": out += "\\\\r"; break;
+          case "\t": out += "\\\\t"; break;
+          case "\b": out += "\\\\b"; break;
+          case "\f": out += "\\\\f"; break;
+          default:
+            out += "\\\\u" + code.toString(16).padStart(4, "0");
+        }
+        continue;
+      }
+      out += ch;
+    } else {
+      if (ch === '"') {
+        out += ch;
+        inStr = true;
+        continue;
+      }
+      if (code < 0x20) {
+        // 字符串外：只保留 JSON 合法空白
+        if (ch === "\n" || ch === "\r" || ch === "\t") out += ch;
+        continue;
+      }
+      out += ch;
+    }
+  }
+  return out;
+}
+
+
+async function handleFile(file) {
+  const text = await file.text();
+  let obj;
+  try {
+    obj = JSON.parse(text);
+  } catch (e) {
+    // 尝试修复控制字符问题
+    obj = JSON.parse(repairJsonText(text));
+  }
+
+  if (!Array.isArray(obj)) {
+    throw new Error("JSON 顶层必须是数组（每题一条对象）。");
+  }
+
+  DATA = obj;
+  if (els.jsonName) els.jsonName.textContent = file.name;
+
+  hideLoadTip();
+  initFilters();
+  render();
+}
+
+(function init() {
+  bind();
+
+// 导出按钮（只会导出当前内存里的 DATA；浏览器不能直接覆盖本地文件，只能下载）
+if (els.exportJson) {
+  els.exportJson.addEventListener("click", () => {
+    if (!DATA || !DATA.length) {
+      alert("当前还没有加载题库 JSON。请先选择 JSON 文件。");
+      return;
+    }
+    downloadJson("data.updated.json", DATA);
+  });
+}
+if (els.exportJsonAll) {
+  els.exportJsonAll.addEventListener("click", () => {
+    if (!DATA || !DATA.length) {
+      alert("当前还没有加载题库 JSON。请先选择 JSON 文件。");
+      return;
+    }
+    // 这里用更“覆盖友好”的文件名：data.json（浏览器仍然是下载，覆盖需要你手动替换）
+    downloadJson("data.json", DATA);
+  });
+}
+
+
+  showLoadTip(`请在顶部点击“选择JSON文件”，选择你的题库 <code>.json</code> 后开始使用（支持双击打开本页）。保存到 GitHub 后，GitHub Pages 可能有缓存延迟，稍等或强制刷新。`);
+
+  if (!els.jsonFile) {
+    showLoadTip("未找到 JSON 文件选择器（#jsonFile）。请检查 HTML 是否包含该控件。");
+    return;
+  }
+
+  els.jsonFile.addEventListener("change", async (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    try {
+      await handleFile(file);
+    } catch (err) {
+      console.error(err);
+      showLoadTip(`加载失败：${err.message}<br/>请确认你选择的是正确的题库 JSON 文件。`);
+    }
+  });
+})();
+</script>
+</body>
+</html>
