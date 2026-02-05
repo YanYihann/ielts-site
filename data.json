@@ -3568,10 +3568,10 @@
       },
       {
         "side": "B",
-        "claim_zh": "",
-        "claim_en": "",
-        "analysis_zh": "",
-        "analysis_en": ""
+        "claim_zh": "\n\n反方观点\n但居家教育的劣势也很突出：孩子缺少高频同龄互动，社交能力练习不足，未来进入集体环境更难适应。",
+        "claim_en": "However, a major disadvantage is that homeschooling reduces frequent peer interaction, limiting social practice and making later adjustment to group settings harder.",
+        "analysis_zh": "起点A：同龄互动频率下降\n→ 少了每天的合作、冲突与和解（分工、轮流、妥协）\n→ 社交规则只能“知道”，但缺少反复实战\n→ 终点：团队协作与人际边界感发展更慢\n\n起点B：进入新环境时“强度陡增”\n→ 从家庭小圈子突然切换到学校/大学/职场的大集体\n→ 需要同时处理任务与复杂人际\n→ 适应期更长、容易退缩\n→ 终点：影响融入与表现",
+        "analysis_en": "Start A: Fewer daily peer interactions\n→ fewer chances to practise sharing, turn-taking, negotiation and conflict resolution\n→ social rules are understood in theory but not trained repeatedly\n→ End: slower development of teamwork and interpersonal boundaries\n\nStart B: A sharp transition later\n→ moving from a small family setting to a large school/university/workplace\n→ managing tasks plus complex social dynamics at the same time\n→ longer adjustment period and possible withdrawal\n→ End: weaker integration and performance"
       }
     ]
   },
@@ -7497,17 +7497,17 @@
     "views": [
       {
         "side": "A",
-        "claim_zh": "",
-        "claim_en": "",
-        "analysis_zh": "",
-        "analysis_en": ""
+        "claim_zh": "允许孩子用平板/电脑玩耍的主要好处是，他们更早获得“数字熟练度”，以后学习与生活用技术更顺。",
+        "claim_en": "Children playing on computers and tablets would gain early digital fluency, which helps children use technology more confidently later.",
+        "analysis_zh": "起点A：频繁接触设备 → 熟悉基本操作（点按、输入、菜单、搜索）\n→ 遇到学习平台/作业软件时阻力更小\n→ 终点：更快适应数字化学习环境\n\n起点B：在游戏/应用中反复试错\n→ 学会“按步骤操作、解决小问题”（例如设置、保存、更新）\n→ 终点：更强的技术自信与独立性",
+        "analysis_en": "Start A: Frequent exposure → basic operations become automatic\n→ less friction with school apps and online tools\n→ End: smoother adjustment to digital learning\n\nStart B: Repeated trial-and-error in apps/games\n→ learns simple problem-solving (settings, saving, updates)\n→ End: stronger tech confidence and independence"
       },
       {
         "side": "B",
-        "claim_zh": "",
-        "claim_en": "",
-        "analysis_zh": "",
-        "analysis_en": ""
+        "claim_zh": "但更常见、占比更大的结果是“设备娱乐化使用”导致过度屏幕时间，削弱专注与自控，因此弊大于利。",
+        "claim_en": "However, the more common outcome is overuse for entertainment, which weakens attention and self-control; therefore, disadvantages outweigh advantages.",
+        "analysis_zh": "起点A：游戏/短内容的即时奖励强\n→ 孩子习惯快速刺激与即时反馈\n→ 需要耐心的任务（阅读、作业）变得更难坚持\n→ 终点：注意力与延迟满足能力下降\n\n起点B：屏幕时间挤占睡眠与户外活动\n→ 更晚睡/睡眠质量差 + 久坐\n→ 情绪波动、疲劳感上升\n→ 终点：学习状态与身心健康受损",
+        "analysis_en": "Start A: Instant rewards from games/fast content\n→ children get used to constant stimulation\n→ slow tasks (reading/homework) feel harder to sustain\n→ End: weaker attention and delayed gratification\n\nStart B: Screen time crowds out sleep and outdoor activity\n→ later bedtime + sedentary routine\n→ more fatigue and mood swings\n→ End: poorer well-being and learning quality"
       }
     ]
   },
@@ -8944,10 +8944,10 @@
       },
       {
         "side": "B",
-        "claim_zh": "",
-        "claim_en": "",
-        "analysis_zh": "",
-        "analysis_en": ""
+        "claim_zh": "它会显著增加交通排放与目的地承载压力，从而加重环境负担并影响当地生活。",
+        "claim_en": "it increases transport emissions and overwhelms popular destinations, creating heavier environmental and social costs.",
+        "analysis_zh": "起点A：交通排放链（飞机/船）\n\nA1 跨国移动高度依赖飞机与邮轮/船运\nA2 出行频次上升 → 燃油消耗与碳排放累积\nA3 排放增加 → 空气污染与温室气体压力上升\nA4 终点：环境保护难度上升、气候压力加重\n\n起点B：过度拥挤链（景区承载）\n\nB1 游客集中在少数热门城市/景点\nB2 超过承载能力 → 垃圾增加、噪音上升、公共设施磨损\nB3 管理成本飙升（清洁、限流、安保、修复）\nB4 终点：生态与景观受损，城市运行压力加大\n\n起点C：资源消耗链（水电/一次性用品）\n\nC1 住宿和餐饮需求上升 → 水电消耗上升\nC2 一次性用品与包装增多 → 垃圾处理量暴涨\nC3 处理系统跟不上 → 污染扩散或外溢\nC4 终点：环境负担进一步加重\n\n起点D：对居民生活链（拥堵与价格）\n\nD1 大量游客进入 → 交通拥堵、噪音、公共空间被挤占\nD2 需求推高租金与物价（尤其在热门地区）\nD3 居民生活成本上升、生活体验下降\nD4 终点：当地居民反感增加，社会摩擦上升",
+        "analysis_en": "Start A: Transport emissions (planes/ships)\n\nA1 International travel relies heavily on flights and cruises/ships\nA2 More trips → more fuel use and accumulated emissions\nA3 Higher emissions → more air pollution and greenhouse-gas pressure\nA4 End: environmental protection becomes harder; climate impacts grow\n\nStart B: Overcrowding and carrying capacity\n\nB1 Tourists cluster in a few hotspots\nB2 Capacity is exceeded → more litter, noise and wear on facilities\nB3 Higher management costs (clean-up, security, repairs, crowd control)\nB4 End: damaged ecosystems and stressed urban systems\n\nStart C: Resource use and waste\n\nC1 More accommodation and dining → higher water/energy consumption\nC2 More disposable items and packaging → a surge in waste\nC3 Waste systems cannot keep up → leakage and pollution\nC4 End: a heavier environmental burden\n\nStart D: Pressure on residents\n\nD1 Large tourist inflows → congestion, noise, crowded public spaces\nD2 Higher demand pushes up rent and prices\nD3 Residents face higher living costs and lower quality of life\nD4 End: resentment rises and social tension increases"
       }
     ]
   },
@@ -11049,17 +11049,17 @@
     "views": [
       {
         "side": "A",
-        "claim_zh": "",
-        "claim_en": "",
-        "analysis_zh": "",
-        "analysis_en": ""
+        "claim_zh": "城外大型商店的主要优点在于：商品选择更多、总体更省钱。",
+        "claim_en": "The main advantages are greater product choice and cost savings.",
+        "analysis_zh": "起点A：大型商店面积更大、供货集中\n→ 能同时上架更多品牌/规格/价位（从平价到高端）\n→ 消费者更容易“横向比较”（质量、功能、价格）\n→ 终点：更容易买到最符合需求的产品（选择更匹配）\n\n起点B：品类齐全（食品+日用品+家电等）\n→ 一次出行能解决多种需求\n→ 减少“跑多家店还买不齐”的情况\n→ 终点：选择范围更广且更便利\n\n起点A：规模效应（大量进货+周转快）\n→ 单位采购/仓储/运营成本更低\n→ 商家更容易打折、做捆绑价、长期低价\n→ 终点：日常开支下降（尤其食品日用品）\n\n起点B：一站式采购减少额外成本\n→ 少跑多家店（减少时间成本与小额重复开销）\n→ 更容易计划“集中采购”避免临时高价购买\n→ 终点：总体消费更可控、更省钱",
+        "analysis_en": "Start A: Larger floor space + centralised supply\n→ more brands, sizes and price ranges on shelves\n→ easier side-by-side comparison\n→ End: better matching between products and needs\n\nStart B: Wider categories in one place\n→ one trip covers multiple needs\n→ fewer situations where people “can’t find what they need” locally\n→ End: broader and more convenient choice\n\nStart A: Economies of scale (bulk purchasing, high turnover)\n→ lower per-unit costs\n→ more frequent discounts and lower baseline prices\n→ End: lower spending on everyday essentials\n\nStart B: One-stop shopping reduces extra costs\n→ fewer separate trips and less repeated small spending\n→ easier to plan and avoid last-minute expensive purchases\n→ End: more controllable and cheaper overall shopping"
       },
       {
         "side": "B",
-        "claim_zh": "",
-        "claim_en": "",
-        "analysis_zh": "",
-        "analysis_en": ""
+        "claim_zh": "当市中心小店倒闭、资源转移到城外，无车人群的生活可达性下降，社会被迫更依赖汽车，从而带来不公平与更多用车。",
+        "claim_en": "as town-centre shops disappear and retail shifts outward, non-drivers lose access and society becomes more car-dependent, creating inequity and higher car use.",
+        "analysis_zh": "起点A：中心小店倒闭 → “步行可达”的供给消失\n→ 无车者（老人、青少年、低收入者）买日用品更困难\n→ 只能依赖他人接送/昂贵打车/减少购买频次\n→ 终点：基本生活被“交通能力”绑架，公平性下降\n\n起点B：可达性差 → 诱发“被迫购车/更多用车”\n→ 家庭为了获取廉价与齐全商品开始考虑买车\n→ 或者原本有车的家庭增加开车频次（代买、集中采购）\n→ 终点：汽车使用量上升（题干给的核心后果）\n\n起点C：车依赖上升 → 外部成本扩大\n→ 更多行驶带来拥堵、停车占地、尾气排放\n→ 市中心人流进一步减少，小店更难生存（负循环）\n→ 终点：城镇活力衰退 + 环境与交通压力更大",
+        "analysis_en": "Start A: Town-centre closures remove walkable access\n→ non-drivers (elderly, teens, low-income) struggle to buy essentials\n→ reliance on others, costly taxis, or fewer shopping trips\n→ End: basic needs become tied to car ownership; inequality rises\n\nStart B: Limited access pushes car reliance\n→ some households feel forced to buy a car to reach cheaper, wider options\n→ or car-owning households drive more often (shopping for others, bulk trips)\n→ End: increased car use (the key outcome in the prompt)\n\nStart C: More driving creates wider costs\n→ congestion, parking pressure, and emissions increase\n→ fewer people visit town centres, making small shops even less viable (a loop)\n→ End: weaker town-centre vitality plus higher environmental/traffic burdens"
       }
     ]
   },
