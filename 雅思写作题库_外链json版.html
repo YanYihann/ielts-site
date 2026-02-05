@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>雅思写作真题题库（2013-2026）按话题分类</title>
+  <style>
+    :root {
+      --bg:#0b0f14; --card:#121826; --muted:#7b8698; --text:#e6edf3; --line:#223044;
+      --chip:#1b263a; --accent:#4ea1ff;
+    }
+    *{box-sizing:border-box}
+    body{margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"PingFang SC","Noto Sans CJK SC","Microsoft YaHei",sans-serif;
+         background:var(--bg); color:var(--text);}
+    header{position:sticky; top:0; z-index:10; background:rgba(11,15,20,.92); backdrop-filter: blur(10px); border-bottom:1px solid var(--line);}
+    .wrap{max-width:1100px; margin:0 auto; padding:16px;}
+    h1{margin:0 0 8px; font-size:20px;}
+    .sub{color:var(--muted); font-size:13px; line-height:1.4}
+    .controls{display:flex; flex-wrap:wrap; gap:10px; margin-top:12px; align-items:center}
+    input[type="search"], select{background:var(--card); border:1px solid var(--line); color:var(--text);
+        padding:10px 12px; border-radius:12px; outline:none; min-width:220px}
+    .pill{display:inline-flex; gap:8px; align-items:center; background:var(--chip); border:1px solid var(--line);
+          padding:10px 12px; border-radius:999px; color:var(--text); font-size:13px}
+    .pill input{accent-color:var(--accent)}
+    main{padding:16px 0 40px}
+    details{background:var(--card); border:1px solid var(--line); border-radius:16px; margin:12px 0; overflow:hidden}
+    summary{cursor:pointer; padding:14px 16px; list-style:none; display:flex; align-items:center; justify-content:space-between; gap:12px}
+    summary::-webkit-details-marker{display:none}
+    .topicTitle{display:flex; gap:10px; align-items:center; font-weight:700}
+    .count{color:var(--muted); font-weight:600; font-size:12px; background:rgba(123,134,152,.12); padding:3px 8px; border-radius:999px}
+    .list{padding:0 10px 10px}
+    .q{border-top:1px solid var(--line); padding:12px 10px}
+    .meta{display:flex; gap:10px; flex-wrap:wrap; align-items:center; color:var(--muted); font-size:12px; margin-bottom:8px}
+    .tag{background:rgba(78,161,255,.12); border:1px solid rgba(78,161,255,.25); color:var(--text);
+         padding:2px 8px; border-radius:999px}
+    .en{font-size:14px; line-height:1.5; margin:0 0 6px}
+    .zh{font-size:14px; line-height:1.5; margin:0}
+    .muted{color:var(--muted)}
+    .empty{padding:20px; color:var(--muted); border:1px dashed var(--line); border-radius:16px; text-align:center}
+    a{color:var(--accent)}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>雅思写作真题题库（2013-2026）按话题分类</h1>
+    <div class="sub">
+      支持搜索、按话题/年份筛选、中英文双语展示（中文为自动翻译/模板化翻译，可按需人工润色）。<br/>
+      数据来源：你上传的题库文档。
+    </div>
+    <div class="controls">
+      <input id="qSearch" type="search" placeholder="搜索关键词（中/英都可）…" />
+      <select id="topicFilter">
+        <option value="">全部话题</option>
+      </select>
+      <select id="yearFilter">
+        <option value="">全部年份</option>
+      </select>
+      <label class="pill"><input id="showZh" type="checkbox" checked /> 显示中文</label>
+      <label class="pill"><input id="showEn" type="checkbox" checked /> 显示英文</label>
+      <label class="pill"><input id="expandAll" type="checkbox" /> 展开全部话题</label>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div id="stats" class="sub"></div>
+  <div id="container"></div>
+  <div id="empty" class="empty" style="display:none">没有匹配的题目。请调整搜索或筛选条件。</div>
+  <p class="sub" style="margin-top:18px">
+    小提示：如果你希望中文是高质量人工译文，可以把本页的 JSON 数据导出到后台，用翻译服务批量生成后再替换 <code>zh</code> 字段。
+  </p>
+</main>
+
+<script>
+let DATA = [];
+// JSON 数据文件路径：放在与本 HTML 同目录即可
+const DATA_URL = "./雅思写作题库.json";
+
+async function loadData() {
+  const res = await fetch(DATA_URL, { cache: "no-store" });
+  if (!res.ok) throw new Error(`Failed to load ${DATA_URL}: ${res.status}`);
+  DATA = await res.json();
+}
+
+const TOPIC_ORDER = ["Animals", "Crime & Law", "Culture & Arts", "Education & Learning", "Environment & Energy", "Health & Lifestyle", "Other", "Society & Family", "Technology & Media", "Transport & Cities", "Travel & Tourism", "Work & Career"];
+
+const topicLabel = (t) => {
+  const map = {
+    "Education & Learning":"教育与学习",
+    "Work & Career":"工作与职业",
+    "Technology & Media":"科技与媒体",
+    "Environment & Energy":"环境与能源",
+    "Health & Lifestyle":"健康与生活方式",
+    "Crime & Law":"犯罪与法律",
+    "Society & Family":"社会与家庭",
+    "Culture & Arts":"文化与艺术",
+    "Travel & Tourism":"旅行与旅游",
+    "Transport & Cities":"交通与城市",
+    "Animals":"动物与动物权益",
+    "Other":"其他"
+  };
+  return map[t] || t;
+};
+
+const els = {
+  search: document.getElementById('qSearch'),
+  topic: document.getElementById('topicFilter'),
+  year: document.getElementById('yearFilter'),
+  showZh: document.getElementById('showZh'),
+  showEn: document.getElementById('showEn'),
+  expandAll: document.getElementById('expandAll'),
+  container: document.getElementById('container'),
+  empty: document.getElementById('empty'),
+  stats: document.getElementById('stats'),
+};
+
+function unique(arr) {
+  return [...new Set(arr)].sort((a,b)=>a-b);
+}
+
+function initFilters() {
+  // topics
+  for (const t of TOPIC_ORDER) {
+    const opt = document.createElement('option');
+    opt.value = t;
+    opt.textContent = `${topicLabel(t)}`;
+    els.topic.appendChild(opt);
+  }
+  // years
+  const years = unique(DATA.map(x=>x.year));
+  for (const y of years) {
+    const opt = document.createElement('option');
+    opt.value = y;
+    opt.textContent = y;
+    els.year.appendChild(opt);
+  }
+}
+
+function norm(s) {
+  return (s||'').toLowerCase().replace(/\s+/g,' ').trim();
+}
+
+function matches(item, q, topic, year) {
+  if (topic && item.topic !== topic) return false;
+  if (year && String(item.year) !== String(year)) return false;
+  if (!q) return true;
+  const hay = norm(item.en + " " + (item.zh||'') + " " + item.date + " " + (item.variant||''));
+  return hay.includes(q);
+}
+
+function groupByTopic(items) {
+  const m = new Map();
+  for (const t of TOPIC_ORDER) m.set(t, []);
+  for (const it of items) {
+    if (!m.has(it.topic)) m.set(it.topic, []);
+    m.get(it.topic).push(it);
+  }
+  // sort inside by date
+  for (const [t, arr] of m.entries()) {
+    arr.sort((a,b)=> a.date.localeCompare(b.date));
+  }
+  return m;
+}
+
+function render() {
+  const q = norm(els.search.value);
+  const topic = els.topic.value;
+  const year = els.year.value;
+
+  const showZh = els.showZh.checked;
+  const showEn = els.showEn.checked;
+
+  const filtered = DATA.filter(it => matches(it, q, topic, year));
+  els.stats.textContent = `当前匹配：${filtered.length} / ${DATA.length} 题`;
+
+  els.container.innerHTML = '';
+  els.empty.style.display = filtered.length ? 'none' : 'block';
+  if (!filtered.length) return;
+
+  const grouped = groupByTopic(filtered);
+
+  for (const t of TOPIC_ORDER) {
+    const arr = grouped.get(t) || [];
+    if (!arr.length) continue;
+
+    const det = document.createElement('details');
+    det.open = els.expandAll.checked;
+
+    const sum = document.createElement('summary');
+    const left = document.createElement('div');
+    left.className = 'topicTitle';
+    left.innerHTML = `<span>${topicLabel(t)}</span><span class="count">${arr.length}</span>`;
+    const right = document.createElement('div');
+    right.className = 'muted';
+    right.textContent = '点击展开/收起';
+    sum.appendChild(left);
+    sum.appendChild(right);
+    det.appendChild(sum);
+
+    const list = document.createElement('div');
+    list.className = 'list';
+
+    for (const it of arr) {
+      const d = document.createElement('div');
+      d.className = 'q';
+      const meta = document.createElement('div');
+      meta.className = 'meta';
+      const v = it.variant ? `卷${it.variant}` : '';
+      meta.innerHTML = `
+        <span class="tag">${it.date}</span>
+        <span>${it.year}${v ? ' · ' + v : ''}</span>
+      `;
+      const pEn = document.createElement('p');
+      pEn.className = 'en';
+      pEn.textContent = it.en;
+
+      const pZh = document.createElement('p');
+      pZh.className = 'zh';
+      pZh.textContent = it.zh || '';
+
+      if (!showEn) pEn.style.display = 'none';
+      if (!showZh) pZh.style.display = 'none';
+
+      d.appendChild(meta);
+      d.appendChild(pEn);
+      d.appendChild(pZh);
+      list.appendChild(d);
+    }
+
+    det.appendChild(list);
+    els.container.appendChild(det);
+  }
+}
+
+function bind() {
+  for (const el of [els.search, els.topic, els.year, els.showZh, els.showEn, els.expandAll]) {
+    el.addEventListener('input', render);
+    el.addEventListener('change', render);
+  }
+}
+
+(async () => {
+  try {
+    await loadData();
+    initFilters();
+    bind();
+    render();
+  } catch (e) {
+    console.error(e);
+    const el = document.querySelector('#container') || document.body;
+    el.innerHTML = `<div class="empty" style="display:block">数据加载失败：${e.message}<br/>请确认 <code>${DATA_URL}</code> 与本 HTML 在同一目录，并用网站方式打开（不要直接双击 file://）。</div>`;
+  }
+})();
+</script>
+</body>
+</html>
