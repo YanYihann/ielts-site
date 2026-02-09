@@ -633,7 +633,7 @@
     "views": [
       {
         "side": "A",
-        "claim_zh": "",
+        "claim_zh": "小家庭是只有一个或两个孩子，大家庭是生得多",
         "claim_en": "",
         "analysis_zh": "",
         "analysis_en": ""
@@ -946,7 +946,7 @@
       {
         "side": "A",
         "claim_zh": "",
-        "claim_en": "",
+        "claim_en": "A loss of culture identity",
         "analysis_zh": "",
         "analysis_en": ""
       },
@@ -8409,14 +8409,14 @@
     "views": [
       {
         "side": "A",
-        "claim_zh": "工作与生活的平衡",
+        "claim_zh": "",
         "claim_en": "",
         "analysis_zh": "",
         "analysis_en": ""
       },
       {
         "side": "B",
-        "claim_zh": "紧急事情能被处理",
+        "claim_zh": "",
         "claim_en": "",
         "analysis_zh": "",
         "analysis_en": ""
@@ -10545,14 +10545,14 @@
     "views": [
       {
         "side": "A",
-        "claim_zh": "弊大于利 不方便 拥堵",
+        "claim_zh": "",
         "claim_en": "",
         "analysis_zh": "",
         "analysis_en": ""
       },
       {
         "side": "B",
-        "claim_zh": "不良竞争",
+        "claim_zh": "",
         "claim_en": "",
         "analysis_zh": "",
         "analysis_en": ""
