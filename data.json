@@ -9009,7 +9009,7 @@
     "views": [
       {
         "side": "A",
-        "claim_zh": "人口增长 农业用水增多",
+        "claim_zh": "",
         "claim_en": "",
         "analysis_zh": "",
         "analysis_en": ""
@@ -12033,8 +12033,8 @@
     "views": [
       {
         "side": "A",
-        "claim_zh": "",
-        "claim_en": "",
+        "claim_zh": "垃圾回收站少\n技术不成熟",
+        "claim_en": "lack of recycling sites\n",
         "analysis_zh": "",
         "analysis_en": ""
       },
@@ -12609,7 +12609,7 @@
     "views": [
       {
         "side": "A",
-        "claim_zh": "",
+        "claim_zh": "难就业（就业前景不好）",
         "claim_en": "",
         "analysis_zh": "",
         "analysis_en": ""
