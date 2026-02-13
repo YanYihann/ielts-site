@@ -9,7 +9,7 @@
     "views": [
       {
         "side": "A",
-        "claim_zh": "",
+        "claim_zh": "想象力和语言技能和 选择Reading for pleasure / TV 的 关系\n无法判断比较\n",
         "claim_en": "",
         "analysis_zh": "",
         "analysis_en": ""
@@ -1545,7 +1545,7 @@
     "views": [
       {
         "side": "A",
-        "claim_zh": "1",
+        "claim_zh": "",
         "claim_en": "",
         "analysis_zh": "",
         "analysis_en": ""
@@ -3777,8 +3777,8 @@
     "views": [
       {
         "side": "A",
-        "claim_zh": "让人们度过他们的空闲时间（重心） 和 建造更多的公园或体育设施，而不是购物中心 (关系)：\nbody#1: 描述：他们看到（they've seen how often..）people spend their time exercising sports and taking part in outdoor activities...\n\nbody#2: 描述：我disagree 因为 我也看到人多人去购物中心或者呆在家里\n\n所以我认为不同人选择自己的空闲时间来花在不同的事情上，所以很难判断公园/运动设施和商场哪个更重要",
-        "claim_en": "They’ve seen how often residents spend their free time exercising, playing sports, and taking part in outdoor activities. In a new town, well-designed parks and sports facilities provide affordable places for people of all ages to stay active, relax, and socialise. These spaces can also improve mental health and strengthen community ties, especially for children and older adults who may not have many other leisure options.\n\nHowever, I disagree that planners should prioritise parks and sports facilities over shopping centres in a general sense, because I have also seen many people choose to spend their leisure time in malls or simply at home. For some residents, shopping centres are not only for buying things but also for dining, meeting friends, watching films, and escaping extreme weather. In reality, different people relax in different ways, so it is difficult to judge that parks or sports venues are inherently more important than commercial spaces for everyone.",
+        "claim_zh": "",
+        "claim_en": "",
         "analysis_zh": "",
         "analysis_en": ""
       },
@@ -8097,7 +8097,7 @@
     "views": [
       {
         "side": "A",
-        "claim_zh": "1",
+        "claim_zh": "",
         "claim_en": "",
         "analysis_zh": "",
         "analysis_en": ""
@@ -8361,7 +8361,7 @@
     "views": [
       {
         "side": "A",
-        "claim_zh": "因果关系题\nSome people think that some subjects such as math and philosophy are difficult for some students （原因-事实）\n原因事实 - 不怼原因 - 怼关系\n",
+        "claim_zh": "",
         "claim_en": "",
         "analysis_zh": "",
         "analysis_en": ""
@@ -10137,7 +10137,7 @@
     "views": [
       {
         "side": "A",
-        "claim_zh": "大学教育只使学生自己受益，而不是整个社会 （原因 - 观点）\n\n先怼原因： 大学教育对社会有好处 -- 1. 对社会提供高科技人才\n\n2. 更好就业，缓和政府和民众关系\n\n再怼关系：大学生支付所有的学习费用和受益无关，取决于政府对高等教育的投入",
+        "claim_zh": "",
         "claim_en": "",
         "analysis_zh": "",
         "analysis_en": ""
@@ -12081,7 +12081,7 @@
     "views": [
       {
         "side": "A",
-        "claim_zh": "更多的公共资金应该花在道路和高速公路上，而不是公共系统上好处：\n时间灵活，更舒适和私密性\n不同意：降低民众出行成本，让低收入人群、老人、学生..\n取决于城市，观点不同意",
+        "claim_zh": "",
         "claim_en": "",
         "analysis_zh": "",
         "analysis_en": ""
@@ -12225,8 +12225,8 @@
     "views": [
       {
         "side": "A",
-        "claim_zh": "",
-        "claim_en": "",
+        "claim_zh": "科学研究由政府而不是私人公司来进行和控制的好处：\n低廉 涉及到国家安全方面...\n\n私人公司而不是政府的好处：\n资金充足 \n\npartially disagree\n",
+        "claim_en": "One major benefit of government-led research is that it can reduce the cost burden on the public. Since governments do not need to maximise profits for shareholders, they can fund research with the aim of public welfare and keep key outcomes—such as medicines, vaccines, or essential technologies—more affordable. In addition, when research relates to national security, including defence technology, cybersecurity, or sensitive data, government control helps prevent commercial misuse and reduces the risk of information leaks, ensuring that scientific progress serves the national interest rather than private gain.\n\nOn the other hand, private companies often have far stronger financial capacity and can invest heavily in cutting-edge equipment, top researchers, and rapid product development. This is particularly important in competitive industries such as pharmaceuticals and artificial intelligence, where large budgets and fast decision-making can speed up innovation. In addition, companies are usually better at turning scientific findings into practical products and services, which means research outcomes can reach the public more quickly.\n\nTherefore, I do not think research should be controlled exclusively by governments. Governments should lead and regulate research that affects national security and public interest, while private firms should be encouraged to contribute funding and innovation under clear rules.",
         "analysis_zh": "",
         "analysis_en": ""
       },
@@ -13353,7 +13353,7 @@
     "views": [
       {
         "side": "A",
-        "claim_zh": "",
+        "claim_zh": "美术课，像绘画和素描和其他科目一样重要 原因-观点\n\n怼原因：美术课程没有其他课程重要 -- 对于绝大部分大学生，影响他们升学的课程主要取决于其他主课\n怼关系：美术课成为高中的必修课和是否和其他课程一样重要无关",
         "claim_en": "",
         "analysis_zh": "",
         "analysis_en": ""
@@ -13761,7 +13761,7 @@
     "views": [
       {
         "side": "A",
-        "claim_zh": "原因是观点\n\n先怼原因：\n1. 要保持健康饮食，人们需要吃肉 -- 具象化\n\n再怼因果关系：\n1. 是否成为素食主食着和保持健康饮食无关，而是取决于个人的belief 尤其是 animal protectionists\n2. 家庭影响或饮食习惯（eating habits）",
+        "claim_zh": "",
         "claim_en": "",
         "analysis_zh": "",
         "analysis_en": ""
