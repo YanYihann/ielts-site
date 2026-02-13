@@ -1545,7 +1545,7 @@
     "views": [
       {
         "side": "A",
-        "claim_zh": "",
+        "claim_zh": "1",
         "claim_en": "",
         "analysis_zh": "",
         "analysis_en": ""
@@ -8097,7 +8097,7 @@
     "views": [
       {
         "side": "A",
-        "claim_zh": "",
+        "claim_zh": "1",
         "claim_en": "",
         "analysis_zh": "",
         "analysis_en": ""
@@ -8361,7 +8361,7 @@
     "views": [
       {
         "side": "A",
-        "claim_zh": "",
+        "claim_zh": "因果关系题\nSome people think that some subjects such as math and philosophy are difficult for some students （原因-事实）\n原因事实 - 不怼原因 - 怼关系\n",
         "claim_en": "",
         "analysis_zh": "",
         "analysis_en": ""
@@ -10137,7 +10137,7 @@
     "views": [
       {
         "side": "A",
-        "claim_zh": "",
+        "claim_zh": "大学教育只使学生自己受益，而不是整个社会 （原因 - 观点）\n\n先怼原因： 大学教育对社会有好处 -- 1. 对社会提供高科技人才\n\n2. 更好就业，缓和政府和民众关系\n\n再怼关系：大学生支付所有的学习费用和受益无关，取决于政府对高等教育的投入",
         "claim_en": "",
         "analysis_zh": "",
         "analysis_en": ""
@@ -13761,7 +13761,7 @@
     "views": [
       {
         "side": "A",
-        "claim_zh": "",
+        "claim_zh": "原因是观点\n\n先怼原因：\n1. 要保持健康饮食，人们需要吃肉 -- 具象化\n\n再怼因果关系：\n1. 是否成为素食主食着和保持健康饮食无关，而是取决于个人的belief 尤其是 animal protectionists\n2. 家庭影响或饮食习惯（eating habits）",
         "claim_en": "",
         "analysis_zh": "",
         "analysis_en": ""
