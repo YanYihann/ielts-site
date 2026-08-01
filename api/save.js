@@ -1,11 +1,23 @@
 export default async function handler(req, res) {
   // ===== CORS（GitHub Pages -> Vercel 必须）=====
   const origin = req.headers.origin || "";
-  // 你可以把下面这行改成只允许你的 GitHub Pages 域名（更安全）
-  res.setHeader("Access-Control-Allow-Origin", origin);
+  const configuredOrigins = (process.env.ALLOWED_ORIGINS ||
+    "https://yanyihann.github.io,https://ielts-site-indol.vercel.app")
+    .split(",")
+    .map((value) => value.trim())
+    .filter(Boolean);
+  const isProjectPreview = /^https:\/\/ielts-site-[a-z0-9-]+\.vercel\.app$/i.test(origin);
+  const isAllowedOrigin = !origin || configuredOrigins.includes(origin) || isProjectPreview;
+
+  if (!isAllowedOrigin) {
+    return res.status(403).json({ ok: false, error: "Origin not allowed" });
+  }
+
+  if (origin) res.setHeader("Access-Control-Allow-Origin", origin);
   res.setHeader("Vary", "Origin");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, X-Admin-Key");
+  res.setHeader("Cache-Control", "no-store");
 
   if (req.method === "OPTIONS") return res.status(204).end();
   if (req.method !== "POST") return res.status(405).send("Method Not Allowed");
@@ -19,6 +31,14 @@ export default async function handler(req, res) {
   const { content } = req.body || {};
   if (!Array.isArray(content)) {
     return res.status(400).json({ ok: false, error: "content must be an array []" });
+  }
+  if (content.length > 2000) {
+    return res.status(413).json({ ok: false, error: "Too many records" });
+  }
+
+  const raw = JSON.stringify(content, null, 2);
+  if (Buffer.byteLength(raw, "utf8") > 4_500_000) {
+    return res.status(413).json({ ok: false, error: "Payload is too large" });
   }
 
   const owner = "YanYihann";
@@ -46,7 +66,6 @@ export default async function handler(req, res) {
   const sha = getJson.sha;
 
   // 2) 写回（base64 编码）
-  const raw = JSON.stringify(content, null, 2);
   const b64 = Buffer.from(raw, "utf8").toString("base64");
 
   const putUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${encodeURIComponent(path)}`;
